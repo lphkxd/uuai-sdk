@@ -1,0 +1,29 @@
+{
+    "name": "uuoa/open_sdk",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "ext-redis": "*",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.5",
+        "psr/simple-cache": "^3.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "mockery/mockery": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "UUOA\\OpenSdk\\": "src"
+        },
+        "files": [
+            "src/Helper/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+    },
+    "minimum-stability": "beta",
+    "extra": {
+
+    }
+}
