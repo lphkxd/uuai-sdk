@@ -6,4 +6,4 @@
 .idea
 .env
 .php-cs-fixerphp
-.composer.lock
+composer.lock
