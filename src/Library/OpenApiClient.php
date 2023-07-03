@@ -12,8 +12,8 @@ class OpenApiClient
 {
     protected string $base_api = 'https://api-test.uuptai.com';
     public string $client_id = '';
-    public ?string $corp_code;
-    protected ?string $secret;
+    public ?string $corp_code = null;
+    protected ?string $secret = null;
     protected Client $client;
     protected ?CacheInterface $cache = null;
     //默认缓存驱动配置
@@ -26,13 +26,14 @@ class OpenApiClient
     /**
      * @var mixed|null
      */
-    private $corpAccessToken;
+    private $isvAccessToken;
 
-    public function __construct($app_id = null, $secret = null, $corp_access_token = null)
+    public function __construct($app_id = null, $secret = null, $corp_code = null, $isv_access_token = null)
     {
         $this->client_id = $app_id;
         $this->secret = $secret;
-        $this->corpAccessToken = $corp_access_token;
+        $this->isvAccessToken = $isv_access_token;
+        $this->corp_code = $corp_code;
 
     }
 
@@ -68,22 +69,32 @@ class OpenApiClient
      */
     public function getAccessToken()
     {
-        return 'eyJ0eXAiOiJqd3QifQ.eyJzdWIiOiIxIiwiaXNzIjoiaHR0cDpcL1wvOiIsImV4cCI6MTY4ODM4NjQ1NywiaWF0IjoxNjg4Mzc5MjU3LCJuYmYiOjE2ODgzNzkyNTcsInVpZCI6MSwicyI6Ik1NMGxrQSIsImp0aSI6ImJkODQ4N2U2NzIxZjgwNTE4YTBjN2UwMjUxMDdjMjFiIn0.M2ZhY2EwNzcxMTI4OGE5Y2NmMGRlOTNiZTFmMTU2NDhhZjM3NjZkYg';
+        //return 'eyJ0eXAiOiJqd3QifQ.eyJzdWIiOiIxIiwiaXNzIjoiaHR0cDpcL1wvOiIsImV4cCI6MTY4ODM4NjQ1NywiaWF0IjoxNjg4Mzc5MjU3LCJuYmYiOjE2ODgzNzkyNTcsInVpZCI6MSwicyI6Ik1NMGxrQSIsImp0aSI6ImJkODQ4N2U2NzIxZjgwNTE4YTBjN2UwMjUxMDdjMjFiIn0.M2ZhY2EwNzcxMTI4OGE5Y2NmMGRlOTNiZTFmMTU2NDhhZjM3NjZkYg';
         if (!$this->cache) {
             $this->setCache($this->cache);
         }
         return cache_has_set($this->cache, 'ai-sdk:getAccessToken:' . $this->client_id, function () {
             if (!empty($this->client_id)) {
                 $res = self::getClient()->get('/open/auth/token?client_id=' . $this->client_id . '&secret=' . $this->secret);
+                if ($res->getStatusCode() != 200) {
+                    throw new \Exception('请求失败', $res->getStatusCode());
+                }
+                $res = json_decode($res->getBody()->getContents(), true);
             } else {
-                $res = self::getClient()->get('/open/authorizer/token?corp_code=' . $this->corp_code . '&corp_access_token=' . $this->corpAccessToken);
+                $res = self::getClient()->get('/open/isv/authorizer/token?corp_code=' . $this->corp_code, [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $this->getIsvAccessToken()
+                    ]
+                ]);
+                if ($res->getStatusCode() != 200) {
+                    throw new \Exception('请求失败', $res->getStatusCode());
+                }
+                $res = json_decode($res->getBody()->getContents(), true);
+                $this->setClientId($res['client_id'] ?? '');
             }
-            $content = $res->getBody()->getContents();
-            if ($res->getStatusCode() != 200) {
-                throw new \Exception('请求失败', $res->getStatusCode());
-            }
+
             // 这里应该做发放成功失败的检测
-            return json_decode($content, true)['access_token'] ?? '';
+            return $res['access_token'] ?? '';
         }, 7000);
 
     }
@@ -173,6 +184,22 @@ class OpenApiClient
     public function setCorpCode(string $corp_code): void
     {
         $this->corp_code = $corp_code;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getIsvAccessToken(): mixed
+    {
+        return $this->isvAccessToken;
+    }
+
+    /**
+     * @param mixed|null $isvAccessToken
+     */
+    public function setIsvAccessToken(mixed $isvAccessToken): void
+    {
+        $this->isvAccessToken = $isvAccessToken;
     }
 
 }

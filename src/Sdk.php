@@ -14,7 +14,7 @@ class Sdk
 
     public function __construct($client_id, $secert = null, $corp_code = null, $accessToken = null)
     {
-        $this->openApiClient = new OpenApiClient($client_id, $secert = null, $corp_code, $accessToken = null);
+        $this->openApiClient = new OpenApiClient($client_id, $secert, $corp_code, $accessToken);
     }
 
     public function setCache($config)

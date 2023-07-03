@@ -81,7 +81,7 @@ class ISVApiClient
             throw new \Exception('请求失败', $res->getStatusCode());
         }
         // 这里应该做发放成功失败的检测
-        return json_decode($content, true)['corp_access_token'] ?? '';
+        return json_decode($content, true)['isv_access_token'] ?? '';
 
 
 
