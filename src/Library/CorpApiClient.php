@@ -77,7 +77,7 @@ class CorpApiClient
             $this->setCache($this->cache);
         }
         return cache_has_set($this->cache, 'ai-sdk:authorizer:token:' . $this->corp_code, function () {
-            $res = self::getClient()->get('/open/corp/token?authorizer_client=' . $this->corp_code . '&secret=' . $this->secret);
+            $res = self::getClient()->get('/open/isv/token?isv_id=' . $this->corp_code . '&secret=' . $this->secret);
             $content = $res->getBody()->getContents();
             if ($res->getStatusCode() != 200) {
                 throw new \Exception('请求失败', $res->getStatusCode());
