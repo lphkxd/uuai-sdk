@@ -1,10 +1,10 @@
 <?php
 
-namespace UUOA\OpenSdk\Api;
+namespace UUAI\Sdk\Api;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
-use UUOA\OpenSdk\Library\OpenApiClient;
+use UUAI\Sdk\Library\OpenApiClient;
 
 abstract class BaseApi
 {

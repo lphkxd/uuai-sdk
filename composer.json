@@ -1,9 +1,8 @@
 {
-    "name": "uuoa/open_sdk",
+    "name": "uupt/ai-sdk",
     "type": "project",
     "require": {
         "php": ">=7.4",
-        "ext-redis": "*",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.5",
         "psr/simple-cache": "^3.0"
@@ -14,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "UUOA\\OpenSdk\\": "src"
+            "UUAI\\Sdk\\": "src"
         },
         "files": [
             "src/Helper/helpers.php"

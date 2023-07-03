@@ -63,9 +63,9 @@ if (!function_exists('convert_hump')) {
         $result = [];
         foreach ($data as $key => $item) {
             if (is_array($item) || is_object($item)) {
-                $result[convert_hump($key)] = convert_hump((array)$item);
+                $result[hump_to_line($key)] = convert_hump((array)$item);
             } else {
-                $result[convert_hump($key)] = $item;
+                $result[hump_to_line($key)] = $item;
             }
         }
         return $result;

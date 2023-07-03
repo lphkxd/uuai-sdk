@@ -1,45 +1,42 @@
 <?php
 
-namespace UUOA\OpenSdk;
+namespace UUAI\Sdk;
 
-use UUOA\OpenSdk\Api\ConnectorApi;
-use UUOA\OpenSdk\Api\ContactApi;
-use UUOA\OpenSdk\Api\MessageApi;
-use UUOA\OpenSdk\Api\PayApi;
-use UUOA\OpenSdk\Api\UserCenterApi;
-use UUOA\OpenSdk\Library\OpenApiClient;
+use UUAI\Sdk\Api\ConnectorApi;
+use UUAI\Sdk\Api\ContactApi;
+use UUAI\Sdk\Api\JsSDKApi;
+use UUAI\Sdk\Api\MessageApi;
+use UUAI\Sdk\Api\PayApi;
+use UUAI\Sdk\Api\UserCenterApi;
+use UUAI\Sdk\Library\OpenApiClient;
 
 /**
- * @property ContactApi $contactApi
- * @property MessageApi $messageApi
- * @property PayApi $payApi
- * @property ConnectorApi $connectorApi
+ * @property ContactApi    $contactApi
+ * @property MessageApi    $messageApi
+ * @property PayApi        $payApi
+ * @property ConnectorApi  $connectorApi
  * @property UserCenterApi $userCenterApi
+ * @property JsSDKApi         $jssdk
  */
 class Sdk
 {
     protected OpenApiClient $openApiClient;
-    /**
-     * @var bool|string
-     */
-    protected $accessToken;
 
-
-    public function __construct($config)
+    public function __construct($client_id, $secert = null, $accessToken = null)
     {
-        $this->openApiClient = new OpenApiClient($config['app_id'], $config['app_secret'], $config['base_api']);
+        $this->openApiClient = new OpenApiClient($client_id, $secert = null, $accessToken = null);
     }
 
     public function setCache($config)
     {
-        $this->openApiClient->setCacheConfig($config);
+        $this->openApiClient->setCache($config);
         return $this;
     }
 
 
     public function __get(string $name)
     {
-        $class = 'UUOA\OpenSdk\Api\\'.$name;
+        $class = 'UUAI\\Sdk\\Api\\' . $name;
         return new $class ($this->openApiClient);
     }
 }
