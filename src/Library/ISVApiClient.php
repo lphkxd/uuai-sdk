@@ -13,9 +13,9 @@ class ISVApiClient
 {
     protected string $base_api = 'https://api-test.uuptai.com';
 
-    protected string $client_id;
-    protected string $isv_id;
-    protected string $secret;
+    protected string $client_id = '';
+    protected string $isv_id = '';
+    protected string $secret = '';
     protected Client $client;
     protected ?CacheInterface $cache = null;
     //默认缓存驱动配置
@@ -25,12 +25,13 @@ class ISVApiClient
             'dir' => __DIR__ . '/tmp/'
         ]
     ];
+    private $corp_code;
 
-    public function __construct($corp_code = null, $secret = null, $client_id = null)
+    public function __construct($corp_code, $isv_id, $secret)
     {
-        $this->isv_id = $corp_code;
+        $this->isv_id = $isv_id;
         $this->secret = $secret;
-        $this->client_id = $client_id;
+        $this->corp_code = $corp_code;
     }
 
     public function setCache(?CacheInterface $config): ISVApiClient
@@ -61,7 +62,7 @@ class ISVApiClient
 
     public function getSdk()
     {
-        $sdk = new Sdk($this->client_id, '', $this->getAccessToken());
+        $sdk = new Sdk($this->client_id, '', $this->corp_code, $this->getAccessToken());
         $sdk->setCache($this->cache);
         return $sdk;
     }
@@ -73,17 +74,29 @@ class ISVApiClient
      */
     public function getAccessToken()
     {
+
+        $res = self::getClient()->get('/open/isv/token?isv_id=' . $this->isv_id . '&secret=' . $this->secret);
+        $content = $res->getBody()->getContents();
+        if ($res->getStatusCode() != 200) {
+            throw new \Exception('请求失败', $res->getStatusCode());
+        }
+        // 这里应该做发放成功失败的检测
+        return json_decode($content, true)['corp_access_token'] ?? '';
+
+
+
+
         if (!$this->cache) {
             $this->setCache($this->cache);
         }
         return cache_has_set($this->cache, 'ai-sdk:authorizer:token:' . $this->isv_id, function () {
-            $res = self::getClient()->get('/open/corp/token?isv_id=' . $this->isv_id . '&secret=' . $this->secret);
+            $res = self::getClient()->get('/open/isv/token?isv_id=' . $this->isv_id . '&secret=' . $this->secret);
             $content = $res->getBody()->getContents();
             if ($res->getStatusCode() != 200) {
                 throw new \Exception('请求失败', $res->getStatusCode());
             }
             // 这里应该做发放成功失败的检测
-            return json_decode($content, true)['access_token'] ?? '';
+            return json_decode($content, true)['corp_access_token'] ?? '';
         }, 7000);
 
     }
@@ -168,6 +181,22 @@ class ISVApiClient
     public function setISVid(string $isv_id): void
     {
         $this->isv_id = $isv_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCorpCode()
+    {
+        return $this->corp_code;
+    }
+
+    /**
+     * @param mixed $corp_code
+     */
+    public function setCorpCode($corp_code): void
+    {
+        $this->corp_code = $corp_code;
     }
 
 }

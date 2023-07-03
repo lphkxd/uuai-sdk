@@ -11,8 +11,9 @@ use Psr\SimpleCache\CacheInterface;
 class OpenApiClient
 {
     protected string $base_api = 'https://api-test.uuptai.com';
-    protected string $client_id;
-    protected string $secret;
+    public string $client_id = '';
+    public ?string $corp_code;
+    protected ?string $secret;
     protected Client $client;
     protected ?CacheInterface $cache = null;
     //默认缓存驱动配置
@@ -74,7 +75,7 @@ class OpenApiClient
             if (!empty($this->client_id)) {
                 $res = self::getClient()->get('/open/auth/token?client_id=' . $this->client_id . '&secret=' . $this->secret);
             } else {
-                $res = self::getClient()->get('/open/authorizer/token?client_id=' . $this->client_id . '&corp_access_token=' . $this->corpAccessToken);
+                $res = self::getClient()->get('/open/authorizer/token?corp_code=' . $this->corp_code . '&corp_access_token=' . $this->corpAccessToken);
             }
             $content = $res->getBody()->getContents();
             if ($res->getStatusCode() != 200) {
@@ -155,6 +156,22 @@ class OpenApiClient
     public function setClientId(string $client_id): void
     {
         $this->client_id = $client_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCorpCode(): string
+    {
+        return $this->corp_code;
+    }
+
+    /**
+     * @param string $corp_code
+     */
+    public function setCorpCode(string $corp_code): void
+    {
+        $this->corp_code = $corp_code;
     }
 
 }

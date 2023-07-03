@@ -15,8 +15,11 @@ if (!function_exists('p')) {
 }
 
 if (!function_exists('cache_has_set')) {
-    function cache_has_set($cache, string $key, $callback, $tll = 3600)
+    function cache_has_set($cache = null, string $key = null, $callback = null, $tll = 3600)
     {
+        if (!$cache){
+           return call_user_func($callback);
+        }
         $data = $cache->get($key);
         if ($data) {
             return $data;
@@ -69,6 +72,14 @@ if (!function_exists('convert_hump')) {
             }
         }
         return $result;
+    }
+}
+
+if (!function_exists('get_millisecond')) {
+    // 毫秒级时间戳
+    function get_millisecond()
+    {
+        return round(microtime(true) * 1000);
     }
 }
 
