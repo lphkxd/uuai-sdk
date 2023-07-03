@@ -68,7 +68,7 @@ class OpenApiClient
     public function getAccessToken()
     {
         if (!$this->cache) {
-            $this->setCache($this->default_cache_config);
+            $this->setCache($this->cache);
         }
         return cache_has_set($this->cache, 'ai-sdk:getAccessToken:' . $this->client_id, function () {
             if (!empty($this->client_id)) {

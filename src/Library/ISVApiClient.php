@@ -9,12 +9,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\SimpleCache\CacheInterface;
 use UUAI\Sdk\Sdk;
 
-class CorpApiClient
+class ISVApiClient
 {
     protected string $base_api = 'https://api-test.uuptai.com';
 
     protected string $client_id;
-    protected string $corp_code;
+    protected string $isv_id;
     protected string $secret;
     protected Client $client;
     protected ?CacheInterface $cache = null;
@@ -28,12 +28,12 @@ class CorpApiClient
 
     public function __construct($corp_code = null, $secret = null, $client_id = null)
     {
-        $this->corp_code = $corp_code;
+        $this->isv_id = $corp_code;
         $this->secret = $secret;
         $this->client_id = $client_id;
     }
 
-    public function setCache(?CacheInterface $config): CorpApiClient
+    public function setCache(?CacheInterface $config): ISVApiClient
     {
         try {
             $this->cache = $config;
@@ -76,8 +76,8 @@ class CorpApiClient
         if (!$this->cache) {
             $this->setCache($this->cache);
         }
-        return cache_has_set($this->cache, 'ai-sdk:authorizer:token:' . $this->corp_code, function () {
-            $res = self::getClient()->get('/open/corp/token?authorizer_client=' . $this->corp_code . '&secret=' . $this->secret);
+        return cache_has_set($this->cache, 'ai-sdk:authorizer:token:' . $this->isv_id, function () {
+            $res = self::getClient()->get('/open/corp/token?isv_id=' . $this->isv_id . '&secret=' . $this->secret);
             $content = $res->getBody()->getContents();
             if ($res->getStatusCode() != 200) {
                 throw new \Exception('请求失败', $res->getStatusCode());
@@ -157,17 +157,17 @@ class CorpApiClient
     /**
      * @return string
      */
-    public function getCorpCode(): string
+    public function getISVid(): string
     {
-        return $this->corp_code;
+        return $this->isv_id;
     }
 
     /**
-     * @param string $corp_code
+     * @param string $isv_id
      */
-    public function setCorpCode(string $corp_code): void
+    public function setISVid(string $isv_id): void
     {
-        $this->corp_code = $corp_code;
+        $this->isv_id = $isv_id;
     }
 
 }

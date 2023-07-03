@@ -2,7 +2,7 @@
 
 namespace UUAI\Sdk;
 
-use UUAI\Sdk\Library\CorpApiClient;
+use UUAI\Sdk\Library\ISVApiClient;
 
 class CorpSdk
 {
@@ -11,7 +11,7 @@ class CorpSdk
 
     public function __construct($corp_code, $secret, $client_id = '')
     {
-        $this->corpApiClient = new CorpApiClient($corp_code, $secret);
+        $this->corpApiClient = new ISVApiClient($corp_code, $secret);
         if (!empty($client_id)){
             $this->corpApiClient->setClientId($client_id);
         }
