@@ -4,7 +4,7 @@ namespace UUAI\Sdk;
 
 use UUAI\Sdk\Library\ISVApiClient;
 
-class CorpSdk
+class ISVSdk
 {
 
     protected $corpApiClient;
