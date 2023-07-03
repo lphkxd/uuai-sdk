@@ -1,30 +1,33 @@
 <?php
 
 use UUAI\Sdk\Entity\JsTokenRequest;
-use UUAI\Sdk\Sdk;
+use UUAI\Sdk\Entity\UserRequest;
+use UUAI\Sdk\ISVSdk;
 
 require_once "../vendor/autoload.php";
 
-$sdk = new Sdk([
-    //公告
-//    'app_id' => 'app16306f566c8952',
-//    'app_secret' => '0b3dc91d0f12d679ae9c44bb29b6ac10',
-
-    //ssc
-//    'app_id' => 'app163063fa5229ea',
-//    'app_secret' => '4582cb2fc00aaa94dbc03b062fd7002b',
-   // 门户
-    'app_id' => 'app160acd58c593a8',
-    'app_secret' => '8b4363504b03eda3ba22eec36d1dd83d',
+//需要数据1
+$corp_code = 'xxxxxx';
+$isv_id = 'xxxxxx';
+$isv_secret = 'xxxxxxx';
+// isv应用 换取对应组织下的应用token
+$isv = new ISVSdk($corp_code, $isv_id, $isv_secret);
+$sdk = $isv->getSdk();
+$request = new JsTokenRequest();
+$ticket = $sdk->JsSDKApi->jsToken($request)['ticket'];
+//需要数据2
+$url = 'https://xxxxxx.com';
+$jsApiList = [
+    'aa', 'bb', 'cc', 'dd'
+];
+$userRequest = new UserRequest([
+    'id' => 0,
+    'name' => '',
+    'nickname' => '',
+    'avatar' => '',
 ]);
-
-//
-$employersRequest = new JsTokenRequest();
-
-$jssdk = $sdk->jssdk->jsToken($employersRequest);
-
-
-
-p($jssdk);//全部数据
+//组装应用jssdk配置
+$jsConfig = $sdk->JsSDKApi->buildConfig($jsApiList, $userRequest, $url, $ticket);
+dump($jsConfig);
 
 exit;

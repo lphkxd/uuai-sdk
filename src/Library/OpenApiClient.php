@@ -68,6 +68,7 @@ class OpenApiClient
      */
     public function getAccessToken()
     {
+        return 'eyJ0eXAiOiJqd3QifQ.eyJzdWIiOiIxIiwiaXNzIjoiaHR0cDpcL1wvOiIsImV4cCI6MTY4ODM4NjQ1NywiaWF0IjoxNjg4Mzc5MjU3LCJuYmYiOjE2ODgzNzkyNTcsInVpZCI6MSwicyI6Ik1NMGxrQSIsImp0aSI6ImJkODQ4N2U2NzIxZjgwNTE4YTBjN2UwMjUxMDdjMjFiIn0.M2ZhY2EwNzcxMTI4OGE5Y2NmMGRlOTNiZTFmMTU2NDhhZjM3NjZkYg';
         if (!$this->cache) {
             $this->setCache($this->cache);
         }

@@ -6,7 +6,7 @@ use UUAI\Sdk\Api\JsSDKApi;
 use UUAI\Sdk\Library\OpenApiClient;
 
 /**
- * @property JsSDKApi $jssdk
+ * @property JsSDKApi $JsSDKApi
  */
 class Sdk
 {
