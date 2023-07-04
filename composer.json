@@ -5,11 +5,9 @@
         "php": ">=7.4",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.5",
-        "psr/simple-cache": "^3.0"
+        "psr/simple-cache": "^1.0|^2.0|^3.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.0",
-        "mockery/mockery": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -21,7 +19,7 @@
     },
     "autoload-dev": {
     },
-    "minimum-stability": "beta",
+    "minimum-stability": "dev",
     "extra": {
 
     }
