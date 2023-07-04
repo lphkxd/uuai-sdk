@@ -3,10 +3,12 @@
 namespace UUAI\Sdk;
 
 use UUAI\Sdk\Api\JsSDKApi;
+use UUAI\Sdk\Api\UserApi;
 use UUAI\Sdk\Library\OpenApiClient;
 
 /**
  * @property JsSDKApi $JsSDKApi
+ * @property UserApi $UserApi
  */
 class Sdk
 {

@@ -99,6 +99,13 @@ class OpenApiClient
 
     }
 
+    public function getAuthUrl($redirect_uri, $scope)
+    {
+        $this->getAccessToken();
+        $redirect_uri = urlencode($redirect_uri);
+        return "https://passport.uuptai.com/login/oauth/authorize?client_id={$this->client_id}&response_type=code&redirect_uri={$redirect_uri}&scope={$scope}&state={$this->client_id}";
+    }
+
     /**
      * 统一请求方法
      *
@@ -128,6 +135,7 @@ class OpenApiClient
                 break;
         }
         try {
+            p([$method, $uri, $request_options]);
             $response = self::getClient()->request($method, $uri, $request_options);
         } catch (\Throwable $throwable) {
             p($request_options, '请求失败options');
