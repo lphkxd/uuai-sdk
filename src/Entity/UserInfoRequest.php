@@ -4,21 +4,21 @@ namespace UUAI\Sdk\Entity;
 
 class UserInfoRequest extends SplBean
 {
-    public string $corp_code = '';
+    public string $code = '';
 
     /**
      * @return string
      */
-    public function getCorpCode(): string
+    public function getCode(): string
     {
-        return $this->corp_code;
+        return $this->code;
     }
 
     /**
-     * @param string $corp_code
+     * @param string $code
      */
-    public function setCorpCode(string $corp_code): void
+    public function setCode(string $code): void
     {
-        $this->corp_code = $corp_code;
+        $this->code = $code;
     }
 }

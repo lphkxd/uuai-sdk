@@ -9,6 +9,7 @@ class ISVSdk
 {
 
     protected ISVApiClient $ISVApiClient;
+    private ?CacheInterface $cache;
 
     public function __construct($corp_code,$isv_id, $secret)
     {

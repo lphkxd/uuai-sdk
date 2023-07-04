@@ -7,8 +7,8 @@ use UUAI\Sdk\Api\UserApi;
 use UUAI\Sdk\Library\OpenApiClient;
 
 /**
- * @property JsSDKApi $JsSDKApi
- * @property UserApi $UserApi
+ * @property JsSDKApi $jsSDK
+ * @property UserApi $user
  */
 class Sdk
 {
@@ -28,7 +28,7 @@ class Sdk
 
     public function __get(string $name)
     {
-        $class = 'UUAI\\Sdk\\Api\\' . $name;
+        $class = 'UUAI\\Sdk\\Api\\' . ucfirst($name).'Api';
         return new $class ($this->openApiClient);
     }
 }

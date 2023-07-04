@@ -74,21 +74,6 @@ class ISVApiClient
      */
     public function getAccessToken()
     {
-
-        $res = self::getClient()->get('/open/isv/token?isv_id=' . $this->isv_id . '&secret=' . $this->secret);
-        $content = $res->getBody()->getContents();
-        if ($res->getStatusCode() != 200) {
-            throw new \Exception('请求失败', $res->getStatusCode());
-        }
-        // 这里应该做发放成功失败的检测
-        return json_decode($content, true)['isv_access_token'] ?? '';
-
-
-
-
-        if (!$this->cache) {
-            $this->setCache($this->cache);
-        }
         return cache_has_set($this->cache, 'ai-sdk:authorizer:token:' . $this->isv_id, function () {
             $res = self::getClient()->get('/open/isv/token?isv_id=' . $this->isv_id . '&secret=' . $this->secret);
             $content = $res->getBody()->getContents();
@@ -96,7 +81,7 @@ class ISVApiClient
                 throw new \Exception('请求失败', $res->getStatusCode());
             }
             // 这里应该做发放成功失败的检测
-            return json_decode($content, true)['corp_access_token'] ?? '';
+            return json_decode($content, true)['isv_access_token'] ?? '';
         }, 7000);
 
     }
