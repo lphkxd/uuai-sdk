@@ -22,10 +22,10 @@ abstract class BaseApi
      * @return array|ResponseInterface
      * @throws \Exception
      */
-    protected function request($method, $uri, $params): array
+    protected function request($method, $uri, $params, array $headers = []): array
     {
         try {
-            return $this->openApiClient->request($method, $uri, $params->toArray());
+            return $this->openApiClient->request($method, $uri, $params->toArray(), $headers);
         } catch (\Throwable $e) {
             throw new \Exception($e->getMessage(), 500);
         }

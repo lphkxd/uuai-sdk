@@ -105,20 +105,26 @@ class OpenApiClient
         return "https://passport.uuptai.com/login/oauth/authorize?client_id={$this->client_id}&response_type=code&redirect_uri={$redirect_uri}&scope={$scope}&state={$this->client_id}";
     }
 
+
     /**
      * 统一请求方法
-     *
-     * @param       $method
-     * @param       $uri
+     * @param $method
+     * @param $uri
      * @param array $options
-     *
+     * @param array $headers 自定义headers
      * @return array|ResponseInterface
      * @throws GuzzleException
      */
-    public function request($method, $uri, array $options = [])
+    public function request($method, $uri, array $options = [], array $headers = [])
     {
         $request_options = [];
-        $request_options[RequestOptions::HEADERS]['Authorization'] = 'Bearer ' . $this->getAccessToken();
+
+        if(empty($headers)){
+            $request_options[RequestOptions::HEADERS]['Authorization'] = 'Bearer ' . $this->getAccessToken();
+        }else{
+            $request_options[RequestOptions::HEADERS] = $headers;
+        }
+
         switch (strtolower($method)) {
             case 'patch':
             case 'put':
