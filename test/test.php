@@ -1,7 +1,7 @@
 <?php
 
 use UUAI\Sdk\Entity\JsTokenRequest;
-use UUAI\Sdk\Entity\UserRequest;
+use UUAI\Sdk\Entity\BuildConfigRequest;
 use UUAI\Sdk\ISVSdk;
 
 require_once "../vendor/autoload.php";
@@ -20,7 +20,7 @@ $url = 'https://xxxxxx.com';
 $jsApiList = [
     'aa', 'bb', 'cc', 'dd'
 ];
-$userRequest = new UserRequest([
+$userRequest = new BuildConfigRequest([
     'id' => 0,
     'name' => '',
     'nickname' => '',

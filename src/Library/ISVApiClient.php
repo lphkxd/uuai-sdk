@@ -13,7 +13,7 @@ class ISVApiClient
 {
     protected string $base_api = 'https://api-test.uuptai.com';
 
-    protected string $client_id = '';
+    protected ?string $client_id = null;
     protected string $isv_id = '';
     protected string $secret = '';
     protected Client $client;

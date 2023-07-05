@@ -11,7 +11,7 @@ use Psr\SimpleCache\CacheInterface;
 class OpenApiClient
 {
     protected string $base_api = 'https://api-test.uuptai.com';
-    public string $client_id = '';
+    public ?string $client_id = null;
     public ?string $corp_code = null;
     protected ?string $secret = null;
     protected Client $client;
@@ -28,9 +28,9 @@ class OpenApiClient
      */
     private $isvAccessToken;
 
-    public function __construct($app_id = null, $secret = null, $corp_code = null, $isv_access_token = null)
+    public function __construct($client_id = null, $secret = null, $corp_code = null, $isv_access_token = null)
     {
-        $this->client_id = $app_id;
+        $this->client_id = $client_id;
         $this->secret = $secret;
         $this->isvAccessToken = $isv_access_token;
         $this->corp_code = $corp_code;
@@ -72,7 +72,7 @@ class OpenApiClient
         if (!$this->cache) {
             $this->setCache($this->cache);
         }
-        return cache_remember($this->cache, 'ai-sdk:getAccessToken:' . $this->client_id, function () {
+        $res = cache_remember($this->cache, 'ai-sdk:app_token:' . $this->corp_code, function () {
             if (!empty($this->client_id)) {
                 $res = self::getClient()->get('/open/auth/token?client_id=' . $this->client_id . '&secret=' . $this->secret);
                 if ($res->getStatusCode() != 200) {
@@ -91,11 +91,11 @@ class OpenApiClient
                 $res = json_decode($res->getBody()->getContents(), true);
                 $this->setClientId($res['client_id'] ?? '');
             }
-
             // 这里应该做发放成功失败的检测
-            return $res['access_token'] ?? '';
+            return $res;
         }, 7000);
-
+        $this->setClientId($res['client_id'] ?? '');
+        return $res['access_token'] ?? throw new \Exception('获取access_token失败');
     }
 
     public function getAuthUrl($redirect_uri, $scope)
@@ -134,11 +134,8 @@ class OpenApiClient
                 break;
         }
         try {
-            p([$method, $uri, $request_options]);
             $response = self::getClient()->request($method, $uri, $request_options);
         } catch (\Throwable $throwable) {
-            p($request_options, '请求失败options');
-            p($throwable->getMessage(), '请求失败log');
             throw new \Exception('远程请求失败', 500);
         }
         //返回页面
@@ -166,7 +163,7 @@ class OpenApiClient
      */
     public function getClientId(): string
     {
-        return $this->client_id;
+        return $this->client_id ?? $this->cache->get('corp:isv:client_id', '');
     }
 
     /**
@@ -175,6 +172,7 @@ class OpenApiClient
     public function setClientId(string $client_id): void
     {
         $this->client_id = $client_id;
+        $this->cache->set('corp:isv:client_id', $client_id, 8000);
     }
 
     /**
@@ -207,6 +205,14 @@ class OpenApiClient
     public function setIsvAccessToken(mixed $isvAccessToken): void
     {
         $this->isvAccessToken = $isvAccessToken;
+    }
+
+    /**
+     * @return CacheInterface|null
+     */
+    public function getCache(): ?CacheInterface
+    {
+        return $this->cache;
     }
 
 }

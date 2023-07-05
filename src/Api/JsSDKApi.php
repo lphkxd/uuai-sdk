@@ -2,9 +2,8 @@
 
 namespace UUAI\Sdk\Api;
 
+use UUAI\Sdk\Entity\BuildConfigRequest;
 use UUAI\Sdk\Entity\JsTokenRequest;
-use UUAI\Sdk\Entity\JsTokenResponse;
-use UUAI\Sdk\Entity\UserRequest;
 use UUAI\Sdk\Library\JSSDKTicket;
 
 /**
@@ -16,24 +15,27 @@ class JsSDKApi extends BaseApi
 
     public function jsToken(JsTokenRequest $request)
     {
-        $res = $this->request('get', self::API_JS_TOKEN, $request);
-        return $res;
-        return new JsTokenResponse($res);
+        return cache_remember($this->openApiClient->getCache(), 'ai-sdk:js_token:' . $this->openApiClient->client_id, function () use ($request) {
+            return $this->request('get', self::API_JS_TOKEN, $request);
+        });
     }
 
-    public function buildConfig($jsApiList, UserRequest $userRequest, $url, $ticket)
+    public function buildConfig(BuildConfigRequest $buildConfigRequest)
     {
+        $request = new JsTokenRequest();
+        $ticket = $this->jsToken($request)['ticket'];
         $timestamp = get_millisecond();
         $nonce = bin2hex(random_bytes(6));
-        return[
-            'appid' => $this->openApiClient->client_id,
+        $params = [
+            'client_id' => $this->openApiClient->getClientId(),
             'nonceStr' => $nonce,
-            'user' => $userRequest->toArray(),
-            'jsApiList' => $jsApiList,
+            'user' => $buildConfigRequest->getUser(),
+            'jsApiList' => $buildConfigRequest->getJsApiList(),
             'timeStamp' => get_millisecond(),
-            'url' => $url,
-            'signature' => JSSDKTicket::getTicketSignature($ticket, $nonce, $timestamp, $url, $userRequest->toArray(), $jsApiList),
+            'url' => $buildConfigRequest->getUrl(),
         ];
+        $params['signature'] = JSSDKTicket::getTicketSignature($ticket, $nonce, $timestamp, $params['url'], $params['user'], $params['jsApiList']);
+        return $params;
     }
-    
+
 }
