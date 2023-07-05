@@ -69,11 +69,10 @@ class OpenApiClient
      */
     public function getAccessToken()
     {
-        //return 'eyJ0eXAiOiJqd3QifQ.eyJzdWIiOiIxIiwiaXNzIjoiaHR0cDpcL1wvOiIsImV4cCI6MTY4ODM4NjQ1NywiaWF0IjoxNjg4Mzc5MjU3LCJuYmYiOjE2ODgzNzkyNTcsInVpZCI6MSwicyI6Ik1NMGxrQSIsImp0aSI6ImJkODQ4N2U2NzIxZjgwNTE4YTBjN2UwMjUxMDdjMjFiIn0.M2ZhY2EwNzcxMTI4OGE5Y2NmMGRlOTNiZTFmMTU2NDhhZjM3NjZkYg';
         if (!$this->cache) {
             $this->setCache($this->cache);
         }
-        return cache_has_set($this->cache, 'ai-sdk:getAccessToken:' . $this->client_id, function () {
+        return cache_remember($this->cache, 'ai-sdk:getAccessToken:' . $this->client_id, function () {
             if (!empty($this->client_id)) {
                 $res = self::getClient()->get('/open/auth/token?client_id=' . $this->client_id . '&secret=' . $this->secret);
                 if ($res->getStatusCode() != 200) {

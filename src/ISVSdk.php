@@ -30,7 +30,7 @@ class ISVSdk
 
     public function getSdk()
     {
-        return $this->ISVApiClient->getSdk();
+        return $this->ISVApiClient->getSdk()->setCache($this->cache);
     }
 
 }

@@ -74,7 +74,7 @@ class ISVApiClient
      */
     public function getAccessToken()
     {
-        return cache_has_set($this->cache, 'ai-sdk:authorizer:token:' . $this->isv_id, function () {
+        return cache_remember($this->cache, 'ai-sdk:authorizer:token:' . $this->isv_id, function () {
             $res = self::getClient()->get('/open/isv/token?isv_id=' . $this->isv_id . '&secret=' . $this->secret);
             $content = $res->getBody()->getContents();
             if ($res->getStatusCode() != 200) {

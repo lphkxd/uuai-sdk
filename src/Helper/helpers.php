@@ -14,8 +14,8 @@ if (!function_exists('p')) {
     }
 }
 
-if (!function_exists('cache_has_set')) {
-    function cache_has_set($cache = null, string $key = null, $callback = null, $tll = 3600)
+if (!function_exists('cache_remember')) {
+    function cache_remember($cache = null, string $key = null, $callback = null, $tll = 3600)
     {
         if (!$cache){
            return call_user_func($callback);
