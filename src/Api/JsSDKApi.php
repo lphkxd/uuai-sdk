@@ -2,9 +2,6 @@
 
 namespace UUAI\Sdk\Api;
 
-
-use GuzzleHttp\Psr7\Uri;
-use Illuminate\Support\Str;
 use UUAI\Sdk\Entity\JsTokenRequest;
 use UUAI\Sdk\Entity\JsTokenResponse;
 use UUAI\Sdk\Entity\UserRequest;
@@ -26,8 +23,8 @@ class JsSDKApi extends BaseApi
 
     public function buildConfig($jsApiList, UserRequest $userRequest, $url, $ticket)
     {
-        $nonce = Str::random(12);
         $timestamp = get_millisecond();
+        $nonce = bin2hex(random_bytes(6));
         return[
             'appid' => $this->openApiClient->client_id,
             'nonceStr' => $nonce,
