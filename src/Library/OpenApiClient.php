@@ -145,7 +145,7 @@ class OpenApiClient
         try {
             $response = self::getClient()->request($method, $uri, $request_options);
         } catch (\Throwable $throwable) {
-            throw new \Exception('远程请求失败', 500);
+            throw new \Exception($throwable->getMessage(), $throwable->getCode());
         }
         //返回页面
         // 针对 /open/apis/pay/confirm 确认订单支付页
