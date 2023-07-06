@@ -95,7 +95,10 @@ class OpenApiClient
             return $res;
         }, 7000);
         $this->setClientId($res['client_id'] ?? '');
-        return $res['access_token'] ?? throw new \Exception('获取access_token失败');
+        if(empty($res['access_token'])){
+            throw new \Exception('获取access_token失败');
+        }
+        return $res['access_token'];
     }
 
     public function getAuthUrl($redirect_uri, $scope)
