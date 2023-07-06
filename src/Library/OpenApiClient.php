@@ -74,7 +74,7 @@ class OpenApiClient
         }
         $res = cache_remember($this->cache, 'ai-sdk:app_token:' . $this->corp_code, function () {
             if (!empty($this->client_id)) {
-                $res = self::getClient()->get('/open/auth/token?client_id=' . $this->client_id . '&secret=' . $this->secret);
+                $res = self::getClient()->get('/open/auth/token?client_id=' . $this->client_id . '&client_secret=' . $this->secret);
                 if ($res->getStatusCode() != 200) {
                     throw new \Exception('请求失败', $res->getStatusCode());
                 }
