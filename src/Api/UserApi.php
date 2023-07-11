@@ -10,9 +10,9 @@ class UserApi extends OpenApi
     const API_USER_ACCESS_TOKEN = '/open/auth/user/access_token';
     const API_USER_INFO = '/open/auth/user/info';
 
-    public function getAuthUrl($redirect_uri, $scope = 'read')
+    public function getAuthUrl($redirect_uri, $scope = 'read', $state = '')
     {
-        return $this->openApiClient->getAuthUrl($redirect_uri, $scope);
+        return $this->openApiClient->getAuthUrl($redirect_uri, $scope, $state);
     }
 
     public function userAccessToken($code)
