@@ -9,7 +9,7 @@ class AppApi extends OpenApi
 {
     const API_APP_INFO = '/open/apis/app/info';
 
-    public function info($token)
+    public function info()
     {
         $request = new UserInfoRequest();
         $res = $this->request('get', self::API_APP_INFO, $request);
