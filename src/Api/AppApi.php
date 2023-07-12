@@ -7,7 +7,7 @@ use UUAI\Sdk\Entity\UserInfoRequest;
 
 class AppApi extends OpenApi
 {
-    const API_APP_INFO = '/open/apis/app/info';
+    const API_APP_INFO = '/open/apis/app/plan';
 
     public function info()
     {
