@@ -17,7 +17,7 @@ class OpenApi extends BaseApi
         $request->setUserId($data['user_id']);
         $request->setEngine($model);
         $request->setApi($data['api'] ?? '');
-        $res = $this->request('post', self::API_OPEN_AI, $request);
+        $res = $this->request('post', self::API_OPEN_AI, $request->toArray());
         return $res;
     }
 

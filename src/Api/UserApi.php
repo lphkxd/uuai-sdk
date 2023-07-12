@@ -20,7 +20,7 @@ class UserApi extends OpenApi
         $request = new userAccessTokenRequest([
             'code' => $code
         ]);
-        $res = $this->request('get', self::API_USER_ACCESS_TOKEN, $request);
+        $res = $this->request('get', self::API_USER_ACCESS_TOKEN, $request->toArray());
         return $res;
     }
 
@@ -30,7 +30,7 @@ class UserApi extends OpenApi
         $headers = [
             'Authorization' => 'Bearer ' . $token
         ];
-        $res = $this->request('get', self::API_USER_INFO, $request, $headers);
+        $res = $this->request('get', self::API_USER_INFO, $request->toArray(), $headers);
         return $res;
     }
 

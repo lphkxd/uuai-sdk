@@ -11,8 +11,6 @@ class AppApi extends OpenApi
 
     public function info()
     {
-        $request = new UserInfoRequest();
-        $res = $this->request('get', self::API_APP_INFO, $request);
-        return $res;
+        return $this->request('get', self::API_APP_INFO);
     }
 }
