@@ -22,7 +22,7 @@ abstract class BaseApi
      * @return array|ResponseInterface
      * @throws \Exception
      */
-    protected function request($method, $uri, $params, array $headers = []): array
+    protected function request($method, $uri, $params = NULL, array $headers = []): array
     {
         try {
             return $this->openApiClient->request($method, $uri, $params->toArray(), $headers);
