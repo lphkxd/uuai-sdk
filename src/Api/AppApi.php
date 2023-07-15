@@ -9,7 +9,7 @@ class AppApi extends BaseApi
 {
     const API_APP_INFO = '/open/apis/app/plan';
 
-    public function info()
+    public function plan()
     {
         return $this->request('get', self::API_APP_INFO);
     }
