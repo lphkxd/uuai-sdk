@@ -4,6 +4,7 @@ namespace UUAI\Sdk\Library;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 use Psr\SimpleCache\CacheInterface;
@@ -147,8 +148,16 @@ class OpenApiClient
         }
         try {
             $response = self::getClient()->request($method, $uri, $request_options);
-        } catch (\Throwable $throwable) {
-            throw new \Exception($throwable->getMessage(), $throwable->getCode());
+        } catch (TransferException $e) {
+            if ($e->hasResponse()) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                $errorMessage = json_decode($response->getBody()->getContents(), true);
+            } else {
+                $statusCode = 500;
+                $errorMessage['error'] = '未知错误';
+            }
+            throw new \Exception($errorMessage['error'], $statusCode);
         }
         //返回页面
         // 针对 /open/apis/pay/confirm 确认订单支付页
