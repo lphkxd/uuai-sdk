@@ -11,7 +11,7 @@ use Psr\SimpleCache\CacheInterface;
 
 class OpenApiClient
 {
-    protected string $base_api = 'https://api-test.uuptai.com';
+    protected string $base_api = 'https://api.uuptai.com';
     public ?string $client_id = null;
     public ?string $corp_code = null;
     protected ?string $secret = null;
