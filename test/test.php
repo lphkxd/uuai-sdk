@@ -28,6 +28,6 @@ $userRequest = new BuildConfigRequest([
 ]);
 //组装应用jssdk配置
 $jsConfig = $sdk->JsSDKApi->buildConfig($jsApiList, $userRequest, $url, $ticket);
-dump($jsConfig);
+var_dump($jsConfig);
 
 exit;

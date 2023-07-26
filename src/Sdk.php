@@ -2,6 +2,7 @@
 
 namespace UUAI\Sdk;
 
+use UUAI\Sdk\Api\ChatApi;
 use UUAI\Sdk\Api\JsSDKApi;
 use UUAI\Sdk\Api\UserApi;
 use UUAI\Sdk\Library\OpenApiClient;
@@ -9,11 +10,18 @@ use UUAI\Sdk\Library\OpenApiClient;
 /**
  * @property JsSDKApi $jsSDK
  * @property UserApi $user
+ * @property ChatApi $chat
  */
 class Sdk
 {
     protected OpenApiClient $openApiClient;
 
+    /**
+     * @param $client_id
+     * @param $secert
+     * @param $corp_code
+     * @param $accessToken
+     */
     public function __construct($client_id, $secert = null, $corp_code = null, $accessToken = null)
     {
         $this->openApiClient = new OpenApiClient($client_id, $secert, $corp_code, $accessToken);
