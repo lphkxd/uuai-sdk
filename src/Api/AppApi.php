@@ -5,11 +5,11 @@ namespace UUAI\Sdk\Api;
 use UUAI\Sdk\Entity\UserAccessTokenRequest;
 use UUAI\Sdk\Entity\UserInfoRequest;
 
-class AppApi extends OpenApi
+class AppApi extends BaseApi
 {
-    const API_APP_INFO = '/open/apis/app/info';
+    const API_APP_INFO = '/open/apis/app/plan';
 
-    public function info()
+    public function plan()
     {
         return $this->request('get', self::API_APP_INFO);
     }

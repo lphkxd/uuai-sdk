@@ -2,6 +2,7 @@
 
 namespace UUAI\Sdk;
 
+use UUAI\Sdk\Api\AppApi;
 use UUAI\Sdk\Api\ChatApi;
 use UUAI\Sdk\Api\JsSDKApi;
 use UUAI\Sdk\Api\UserApi;
@@ -10,6 +11,7 @@ use UUAI\Sdk\Library\OpenApiClient;
 /**
  * @property JsSDKApi $jsSDK
  * @property UserApi $user
+ * @property AppApi $app
  * @property ChatApi $chat
  */
 class Sdk

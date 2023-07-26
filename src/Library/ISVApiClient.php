@@ -11,7 +11,7 @@ use UUAI\Sdk\Sdk;
 
 class ISVApiClient
 {
-    protected string $base_api = 'https://api-test.uuptai.com';
+    protected string $base_api = 'https://api.uuptai.com';
 
     protected ?string $client_id = null;
     protected string $isv_id = '';
