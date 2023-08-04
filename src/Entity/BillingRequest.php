@@ -8,6 +8,7 @@ class BillingRequest extends SplBean
     public int $user_id = 0;
     public string $engine = '';
     public string $api = '';
+    public string $remark = '';
 
     /**
      * @return int
@@ -71,5 +72,21 @@ class BillingRequest extends SplBean
     public function setApi(string $api): void
     {
         $this->api = $api;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemark(): string
+    {
+        return $this->remark;
+    }
+
+    /**
+     * @param string $remark
+     */
+    public function setRemark(string $remark): void
+    {
+        $this->remark = $remark;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace UUAI\Sdk\Api;
 
+use UUAI\Sdk\Entity\BillingRequest;
 use UUAI\Sdk\Entity\UserAccessTokenRequest;
 use UUAI\Sdk\Entity\UserInfoRequest;
 
@@ -9,6 +10,7 @@ class UserApi extends OpenApi
 {
     const API_USER_ACCESS_TOKEN = '/open/auth/user/access_token';
     const API_USER_INFO = '/open/auth/user/info';
+    const API_OPEN_AI_BILLING = '/open/ai/user/billing';
 
     public function getAuthUrl($redirect_uri, $scope = 'read', $state = '')
     {
@@ -43,5 +45,10 @@ class UserApi extends OpenApi
             $req['api'] = $api;
         }
         return $this->action('Billing', $req);
+    }
+
+    public function charge(BillingRequest $request)
+    {
+        return $this->request('post', self::API_OPEN_AI_BILLING, $request->toArray());
     }
 }
