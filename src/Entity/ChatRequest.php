@@ -15,6 +15,7 @@ class ChatRequest extends SplBean
     protected ?float $frequency_penalty = 0;
     protected ?float $presence_penalty = 0;
     protected int $max_tokens = 500;
+    protected int $open_user_id = 0;
     protected array $stop = [
         "\n"
     ];
@@ -28,6 +29,16 @@ class ChatRequest extends SplBean
     {
         return $this->stream;
     }
+
+    
+    /**
+     * @param bool $stream
+     */
+    public function setOpenUserId(int $open_user_id): void
+    {
+        $this->open_user_id = $open_user_id;
+    }
+
 
     /**
      * @param bool $stream
