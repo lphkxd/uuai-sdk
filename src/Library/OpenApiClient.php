@@ -106,11 +106,15 @@ class OpenApiClient
     public function getAuthUrl($redirect_uri, $scope, $state)
     {
         $this->getAccessToken();
+        $parsedUrl = parse_url($redirect_uri);
+        $query = $parsedUrl['query'];
+        parse_str($query, $queryParams);
+        $team_id = $queryParams['team_id'] ?? 1;
         $redirect_uri = urlencode($redirect_uri);
         if(empty($state)){
             $state = $this->clientId;
         }
-        return "https://passport.uuptai.com/login/oauth/authorize?client_id={$this->clientId}&response_type=code&redirect_uri={$redirect_uri}&scope={$scope}&state={$state}";
+        return "https://passport.uuptai.com/login/oauth/authorize?client_id={$this->clientId}&response_type=code&redirect_uri={$redirect_uri}&scope={$scope}&state={$state}&team_id={$team_id}";
     }
 
 
