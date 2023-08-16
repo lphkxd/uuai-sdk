@@ -2,7 +2,7 @@
 
 namespace UUAI\Sdk\Api;
 
-use UUAI\Sdk\Entity\BillingRequest;
+use UUAI\Sdk\Entity\ActionRequest;
 use UUAI\Sdk\Entity\UserAccessTokenRequest;
 use UUAI\Sdk\Entity\UserInfoRequest;
 
@@ -47,7 +47,7 @@ class UserApi extends OpenApi
         return $this->action('Billing', $req);
     }
 
-    public function charge(BillingRequest $request)
+    public function charge(ActionRequest $request)
     {
         return $this->request('post', self::API_OPEN_AI_BILLING, $request->toArray());
     }

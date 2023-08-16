@@ -97,7 +97,7 @@ class OpenApiClient
             return $res;
         }, 7000);
         $this->setClientId($res['client_id'] ?? '');
-        if(empty($res['access_token'])){
+        if (empty($res['access_token'])) {
             throw new \Exception('获取access_token失败');
         }
         return $res['access_token'];
@@ -107,7 +107,7 @@ class OpenApiClient
     {
         $this->getAccessToken();
         $redirect_uri = urlencode($redirect_uri);
-        if(empty($state)){
+        if (empty($state)) {
             $state = $this->clientId;
         }
         return "https://passport.uuptai.com/login/oauth/authorize?client_id={$this->clientId}&response_type=code&redirect_uri={$redirect_uri}&scope={$scope}&state={$state}";
@@ -116,10 +116,12 @@ class OpenApiClient
 
     /**
      * 统一请求方法
-     * @param $method
-     * @param $uri
+     *
+     * @param       $method
+     * @param       $uri
      * @param array $options
      * @param array $headers 自定义headers
+     *
      * @return array|ResponseInterface
      * @throws GuzzleException
      */
@@ -127,9 +129,9 @@ class OpenApiClient
     {
         $request_options = [];
 
-        if(empty($headers)){
+        if (empty($headers)) {
             $request_options[RequestOptions::HEADERS]['Authorization'] = 'Bearer ' . $this->getAccessToken();
-        }else{
+        } else {
             $request_options[RequestOptions::HEADERS] = $headers;
         }
 

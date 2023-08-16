@@ -2,13 +2,47 @@
 
 namespace UUAI\Sdk\Entity;
 
-class BillingRequest extends SplBean
+class ActionRequest extends SplBean
 {
     public int $dec_key_number = 0;
     public int $user_id = 0;
     public string $engine = '';
     public string $api = '';
     public string $remark = '';
+    public ?string $prompt = '';
+    public array $options = [];
+
+    /**
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param array $options
+     */
+    public function setOptions(array $options): void
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPrompt(): ?string
+    {
+        return $this->prompt;
+    }
+
+    /**
+     * @param string|null $prompt
+     */
+    public function setPrompt(?string $prompt): void
+    {
+        $this->prompt = $prompt;
+    }
 
     /**
      * @return int

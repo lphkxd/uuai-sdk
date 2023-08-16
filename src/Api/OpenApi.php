@@ -2,7 +2,7 @@
 
 namespace UUAI\Sdk\Api;
 
-use UUAI\Sdk\Entity\BillingRequest;
+use UUAI\Sdk\Entity\ActionRequest;
 
 class OpenApi extends BaseApi
 {
@@ -12,13 +12,14 @@ class OpenApi extends BaseApi
 
     public function action($model, $data)
     {
-        $request = new BillingRequest();
+        $request = new ActionRequest($data);
         $request->setDecKeyNumber($data['dec_key_number'] ?? 0);
-        $request->setUserId($data['user_id']);
+        $request->setUserId($data['user_id'] ?? 0);
+        $request->setPrompt($data['prompt'] ?? '');
+        $request->setOptions($data['options'] ?? '');
         $request->setEngine($model);
         $request->setApi($data['api'] ?? '');
-        $res = $this->request('post', self::API_OPEN_AI, $request->toArray());
-        return $res;
+        return $this->request('post', self::API_OPEN_AI, $request->toArray());
     }
 
 }
