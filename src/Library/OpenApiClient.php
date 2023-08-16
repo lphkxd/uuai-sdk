@@ -28,6 +28,7 @@ class OpenApiClient
      * @var mixed|null
      */
     private $isvAccessToken;
+    private $sk = null;
 
     public function __construct($client_id = null, $secret = null, $corp_code = null, $isv_access_token = null)
     {
@@ -71,6 +72,9 @@ class OpenApiClient
      */
     public function getAccessToken()
     {
+        if ($this->sk) {
+            return $this->sk;
+        }
         if (!$this->cache) {
             $this->setCache($this->cache);
         }
@@ -235,6 +239,7 @@ class OpenApiClient
         $this->isvAccessToken = $isvAccessToken;
     }
 
+
     /**
      * @return CacheInterface|null
      */
@@ -257,6 +262,22 @@ class OpenApiClient
     public function setBaseApi(string $baseApi): void
     {
         $this->baseApi = $baseApi;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSk()
+    {
+        return $this->sk;
+    }
+
+    /**
+     * @param mixed $sk
+     */
+    public function setSk($sk): void
+    {
+        $this->sk = $sk;
     }
 
 }

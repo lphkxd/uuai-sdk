@@ -20,18 +20,24 @@ class Sdk
 
     /**
      * @param $client_id
-     * @param $secert
+     * @param $secret
      * @param $corp_code
      * @param $accessToken
      */
-    public function __construct($client_id, $secert = null, $corp_code = null, $accessToken = null)
+    public function __construct($client_id, $secret = null, $corp_code = null, $accessToken = null)
     {
-        $this->openApiClient = new OpenApiClient($client_id, $secert, $corp_code, $accessToken);
+        $this->openApiClient = new OpenApiClient($client_id, $secret, $corp_code, $accessToken);
     }
 
     public function setCache($config)
     {
         $this->openApiClient->setCache($config);
+        return $this;
+    }
+
+    public function setSk($config)
+    {
+        $this->openApiClient->setSk($config);
         return $this;
     }
 
