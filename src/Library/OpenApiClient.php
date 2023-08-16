@@ -149,7 +149,7 @@ class OpenApiClient
             case 'delete':
             case 'post':
                 $request_options[RequestOptions::HEADERS]['Content-Type'] = 'application/json';
-                $request_options['form_params'] = $options;
+                $request_options['json'] = $options;
                 break;
             case 'get':
                 $request_options[RequestOptions::QUERY] = $options;
