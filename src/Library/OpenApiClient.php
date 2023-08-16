@@ -73,7 +73,7 @@ class OpenApiClient
     public function getAccessToken()
     {
         if ($this->sk) {
-            return $this->sk;
+            return 'Bearer '.$this->sk;
         }
         if (!$this->cache) {
             $this->setCache($this->cache);
