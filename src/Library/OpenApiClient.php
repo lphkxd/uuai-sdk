@@ -111,9 +111,9 @@ class OpenApiClient
     {
         $this->getAccessToken();
         $parsedUrl = parse_url($redirect_uri);
-        $query = $parsedUrl['query'];
+        $query = $parsedUrl['query'] ?? '';
         parse_str($query, $queryParams);
-        $team_id = $queryParams['team_id'] ?? 1;
+        $team_id = $queryParams['team_id'] ?? 0;
         $redirect_uri = urlencode($redirect_uri);
         if (empty($state)) {
             $state = $this->clientId;
