@@ -15,6 +15,7 @@ class JsSDKApi extends BaseApi
 
     public function jsToken(JsTokenRequest $request)
     {
+        return $this->request('get', self::API_JS_TOKEN, $request->toArray());
         $key = 'ai-sdk:js_token:' . $this->openApiClient->clientId;
         $cache = $this->openApiClient->getCache();
         if ($cache->has($key)) return $cache->get($key);
