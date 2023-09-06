@@ -16,6 +16,10 @@ class ChatRequest extends SplBean
     protected ?float $presence_penalty = 0;
     protected int $max_tokens = 500;
     protected int $open_user_id = 0;
+
+    protected array $functions = [];
+    protected string $function_call = 'auto';
+
     protected array $stop = [
         "\n"
     ];
@@ -30,7 +34,7 @@ class ChatRequest extends SplBean
         return $this->stream;
     }
 
-    
+
     /**
      * @param bool $stream
      */
@@ -180,7 +184,9 @@ class ChatRequest extends SplBean
     public function toArray(array $columns = null, $filter = null): array
     {
         $array = parent::toArray($columns, $filter);
-        unset($array['callback']);
+        if (empty($this->getFunctions())) {
+            unset($array['callback'], $array['function_call']);
+        }
         return $array;
     }
 
@@ -206,5 +212,37 @@ class ChatRequest extends SplBean
             'role' => $role,
             'content' => $message
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getFunctions(): array
+    {
+        return $this->functions;
+    }
+
+    /**
+     * @param array $functions
+     */
+    public function setFunctions(array $functions): void
+    {
+        $this->functions = $functions;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFunctionCall(): string
+    {
+        return $this->function_call;
+    }
+
+    /**
+     * @param string $function_call
+     */
+    public function setFunctionCall(string $function_call): void
+    {
+        $this->function_call = $function_call;
     }
 }
