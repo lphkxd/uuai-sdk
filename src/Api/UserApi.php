@@ -11,6 +11,7 @@ class UserApi extends OpenApi
     const API_USER_ACCESS_TOKEN = '/open/auth/user/access_token';
     const API_USER_INFO = '/open/auth/user/info';
     const API_OPEN_AI_BILLING = '/open/ai/user/billing';
+    const API_OPEN_AI_USER_INFO = '/open/ai/user/info';
 
     public function getAuthUrl($redirect_uri, $scope = 'read', $state = '')
     {
@@ -50,5 +51,10 @@ class UserApi extends OpenApi
     public function charge(ActionRequest $request)
     {
         return $this->request('post', self::API_OPEN_AI_BILLING, $request->toArray());
+    }
+
+    public function openUserInfo($user_id)
+    {
+        return $this->request('post', self::API_OPEN_AI_USER_INFO, ['user_id' => $user_id]);
     }
 }
