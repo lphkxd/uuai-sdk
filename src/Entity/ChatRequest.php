@@ -16,6 +16,7 @@ class ChatRequest extends SplBean
     protected ?float $presence_penalty = 0;
     protected int $max_tokens = 500;
     protected int $open_user_id = 0;
+    protected int $dec_key_number = 0;
 
     protected array $functions = [];
     protected string $function_call = 'auto';
@@ -244,5 +245,21 @@ class ChatRequest extends SplBean
     public function setFunctionCall(string $function_call): void
     {
         $this->function_call = $function_call;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDecKeyNumber(): int
+    {
+        return $this->dec_key_number;
+    }
+
+    /**
+     * @param int $dec_key_number
+     */
+    public function setDecKeyNumber(int $dec_key_number): void
+    {
+        $this->dec_key_number = $dec_key_number;
     }
 }
