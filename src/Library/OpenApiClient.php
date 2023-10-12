@@ -114,11 +114,12 @@ class OpenApiClient
         $query = $parsedUrl['query'] ?? '';
         parse_str($query, $queryParams);
         $team_id = $queryParams['team_id'] ?? 0;
+        $invite_code = $queryParams['invite_code'] ?? 'default';
         $redirect_uri = urlencode($redirect_uri);
         if (empty($state)) {
             $state = $this->clientId;
         }
-        return "https://passport.uuptai.com/login/oauth/authorize?client_id={$this->clientId}&response_type=code&redirect_uri={$redirect_uri}&scope={$scope}&state={$state}&team_id={$team_id}";
+        return "https://passport.uuptai.com/login/oauth/authorize?client_id={$this->clientId}&response_type=code&redirect_uri={$redirect_uri}&scope={$scope}&state={$state}&team_id={$team_id}&invite_code={$invite_code}";
     }
 
 
