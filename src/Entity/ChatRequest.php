@@ -8,6 +8,7 @@ class ChatRequest extends SplBean
 
     protected ?\Closure $callback = null;
     protected bool $stream = false;
+    protected int $team_corp_id = 0;
 
     protected ?float $temperature = 0;
     protected string $model = '';
@@ -261,5 +262,21 @@ class ChatRequest extends SplBean
     public function setDecKeyNumber(int $dec_key_number): void
     {
         $this->dec_key_number = $dec_key_number;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTeamCorpId(): int
+    {
+        return $this->team_corp_id;
+    }
+
+    /**
+     * @param int $team_corp_id
+     */
+    public function setTeamCorpId(int $team_corp_id): void
+    {
+        $this->team_corp_id = $team_corp_id;
     }
 }
