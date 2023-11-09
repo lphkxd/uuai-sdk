@@ -6,6 +6,7 @@ class ActionRequest extends SplBean
 {
     public int $dec_key_number = 0;
     public int $user_id = 0;
+    public int $team_corp_id = 0;
     public string $engine = '';
     public string $api = '';
     public string $remark = '';
@@ -122,5 +123,21 @@ class ActionRequest extends SplBean
     public function setRemark(string $remark): void
     {
         $this->remark = $remark;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTeamCorpId(): int
+    {
+        return $this->team_corp_id;
+    }
+
+    /**
+     * @param int $team_corp_id
+     */
+    public function setTeamCorpId(int $team_corp_id): void
+    {
+        $this->team_corp_id = $team_corp_id;
     }
 }
