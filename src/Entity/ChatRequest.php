@@ -17,6 +17,7 @@ class ChatRequest extends SplBean
     protected ?float $presence_penalty = 0;
     protected int $max_tokens = 500;
     protected int $open_user_id = 0;
+    protected int $user_id = 0;
     protected int $dec_key_number = 0;
 
     protected array $functions = [];
@@ -278,5 +279,21 @@ class ChatRequest extends SplBean
     public function setTeamCorpId(int $team_corp_id): void
     {
         $this->team_corp_id = $team_corp_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @param int $user_id
+     */
+    public function setUserId(int $user_id): void
+    {
+        $this->user_id = $user_id;
     }
 }
