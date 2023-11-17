@@ -53,8 +53,8 @@ class UserApi extends OpenApi
         return $this->request('post', self::API_OPEN_AI_BILLING, $request->toArray());
     }
 
-    public function openUserInfo($user_id)
+    public function openUserInfo($user_id, $team_corp_id = 0)
     {
-        return $this->request('post', self::API_OPEN_AI_USER_INFO, ['user_id' => $user_id]);
+        return $this->request('post', self::API_OPEN_AI_USER_INFO, ['user_id' => $user_id, 'team_corp_id' => $team_corp_id]);
     }
 }
